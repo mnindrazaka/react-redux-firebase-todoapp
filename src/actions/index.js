@@ -18,12 +18,21 @@ export const sendTodo = (text) => {
   }
 }
 
-export const deleteTodo = (id) => ({
-  type: 'DELETE_TODO',
-  payload: {
-    id
+export const deleteTodo = (id) => {
+  return (dispatch) => {
+    firebase.database()
+      .ref(`todos/${id}`)
+      .remove()
+      .then(() => {
+        dispatch({
+          type: 'DELETE_TODO',
+          payload: {
+            id
+          }
+        })
+      })
   }
-})
+}
 
 export const fetchTodos = () => {
   return (dispatch) => {

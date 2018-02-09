@@ -6,8 +6,15 @@ export default class TodoItem extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <p>{this.props.text}</p>
-        <p style={styles.todoTime}>{this.props.time}</p>
+        <div>
+          <p>{this.props.text}</p>
+          <p style={styles.todoTime}>{this.props.time}</p>
+        </div>
+        <button
+          style={styles.todoButton}
+          onMouseDown={this.props.onButtonPress}>
+          Finish
+        </button>
       </div>
     );
   }
@@ -15,5 +22,6 @@ export default class TodoItem extends Component {
 
 TodoItem.propTypes = {
   text: PropTypes.string,
-  time: PropTypes.string
+  time: PropTypes.string,
+  onButtonPress: PropTypes.func,
 }

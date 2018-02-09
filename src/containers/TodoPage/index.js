@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchTodos, sendTodo} from '../../actions'
+import {fetchTodos, sendTodo, deleteTodo} from '../../actions'
 
 import SubmitText from '../../components/SubmitText'
 import TodoItem from '../../components/TodoItem'
@@ -25,6 +25,10 @@ class TodoPage extends Component {
     this.setState({text: ''})
   }
 
+  deleteTodo = (id) => {
+    this.props.dispatch(deleteTodo(id))
+  }
+
   render() {
     this.props.dispatch(fetchTodos())
     return (
@@ -40,7 +44,8 @@ class TodoPage extends Component {
           <TodoItem
             key={todo.id}
             text={todo.text}
-            time={todo.created_at}/>
+            time={todo.created_at}
+            onButtonPress={() => this.deleteTodo(todo.id)}/>
         ))}
 
       </div>
