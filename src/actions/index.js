@@ -5,6 +5,19 @@ export const addTodo = (todo) => ({
   payload: todo
 })
 
+export const sendTodo = (text) => {
+  return (dispatch) => {
+    let todo = {
+      text,
+      created_at: new Date().toLocaleString()
+    }
+
+    const newTodoRef = firebase.database().ref('todos').push()
+    todo.id = newTodoRef.key
+    newTodoRef.set(todo)
+  }
+}
+
 export const deleteTodo = (id) => ({
   type: 'DELETE_TODO',
   payload: {
@@ -19,7 +32,7 @@ export const fetchTodos = () => {
       .on('value', (snapshot) => {
         setTimeout(() => {
           const todos = snapshot.val() || []
-          todos.map((todo) => {
+          Object.values(todos).forEach((todo) => {
             dispatch(addTodo(todo))
           })
         }, 0)
