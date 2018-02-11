@@ -10,6 +10,7 @@ class TodoPage extends Component {
 
   constructor(props) {
     super(props)
+    this.props.dispatch(fetchTodos())
     this.state = {
       text: ''
     }
@@ -30,7 +31,6 @@ class TodoPage extends Component {
   }
 
   render() {
-    this.props.dispatch(fetchTodos())
     return (
       <div style={styles.container}>
         <SubmitText

@@ -1,10 +1,5 @@
 import firebase from '../config/firebase'
 
-export const addTodo = (todo) => ({
-  type: 'ADD_TODO',
-  payload: todo
-})
-
 export const sendTodo = (text) => {
   return (dispatch) => {
     let todo = {
@@ -23,14 +18,6 @@ export const deleteTodo = (id) => {
     firebase.database()
       .ref(`todos/${id}`)
       .remove()
-      .then(() => {
-        dispatch({
-          type: 'DELETE_TODO',
-          payload: {
-            id
-          }
-        })
-      })
   }
 }
 
@@ -40,9 +27,16 @@ export const fetchTodos = () => {
       .ref('todos')
       .on('value', (snapshot) => {
         setTimeout(() => {
-          const todos = snapshot.val() || []
-          Object.values(todos).forEach((todo) => {
-            dispatch(addTodo(todo))
+          const data = snapshot.val() || []
+          let todos = []
+
+          Object.values(data).forEach((todo) => {
+            todos.push(todo)
+          })
+
+          dispatch({
+            type: 'SET_TODO',
+            payload: todos
           })
         }, 0)
       })
